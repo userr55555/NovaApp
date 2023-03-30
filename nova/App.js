@@ -7,10 +7,10 @@ export default function App() {
       <Text>Open up App.js to start working on your app!</Text>
       <Text>Can you see this? </Text>
       <Text> Git commit and push test - Miguel</Text>
-      <Text> Second test commit and push</Text>
-      <Text> Anya test push</Text>
+      <Text> 3rd commit and push test - Miguel</Text>
+      <Text> Avi Test 4 - Avi</Text>
+      <Text> Avi Test 2 - Anya</Text>
       
-
       <StatusBar style="auto" />
     </View>
   );
