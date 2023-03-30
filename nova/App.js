@@ -7,6 +7,7 @@ export default function App() {
       <Text>Open up App.js to start working on your app!</Text>
       <Text>Can you see this? </Text>
       <Text> Git commit and push test - Miguel</Text>
+      <Text> 3rd commit and push test - Miguel</Text>
       
       <StatusBar style="auto" />
     </View>
