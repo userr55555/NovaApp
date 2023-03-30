@@ -8,6 +8,7 @@ export default function App() {
       <Text>Can you see this? </Text>
       <Text> Git commit and push test - Miguel</Text>
       <Text> 3rd commit and push test - Miguel</Text>
+      <Text> Avi Test 4 - Avi</Text>
       
       <StatusBar style="auto" />
     </View>
