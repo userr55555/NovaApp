@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: 10,
     backgroundColor: '#587cc4',
     padding: 8,
   },
@@ -120,8 +120,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Arial',
     fontSize: 12,
-    textDecorationLine: 'underline',
-    textDecorationColor: '#fff',
-    textDecorationThickness: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white'
   },
 });

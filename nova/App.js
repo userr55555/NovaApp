@@ -1,19 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import {Registered} from './screens/registeredScreen';
+import {Register} from './screens/registerScreen';
+import {SignIn} from './screens/signInScreen';
 
 export default function App() {
+  const Stack = createStackNavigator();
+  const options = {
+    headerStyle: { backgroundColor: '#587cc4', borderColor: '#587cc4'},
+  };
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>Can you see this? </Text>
-      <Text> Bruce Test 1- Bruce</Text>
-      <Text> Git commit and push test - Miguel</Text>
-      <Text> 3rd commit and push test - Miguel</Text>
-      <Text> Avi Test 4 - Avi</Text>
-      <Text> 4th commit test for anya - Miguel</Text>
-      <Text> Avi Test 2 - Anya</Text>
-      
-      <StatusBar style="auto" />
+      <NavigationContainer >
+        <Stack.Navigator>
+          <Stack.Group screenOptions={{ headerShown: false , ...TransitionPresets.FadeFromBottomAndroid}}>
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="Registered"
+              component={Registered}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="SignIn"
+              component={SignIn}
+              options={{ title: '' }}
+            />
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
     </View>
   );
 }
@@ -21,8 +41,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 10,
+    backgroundColor: '#587cc4',
+    padding: 8,
   },
 });

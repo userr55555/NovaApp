@@ -32,7 +32,7 @@ export function Registered({ route }) {
 
       <View style={styles.cardContainer}>
         <Card containerStyle={styles.cardStyle}>
-          <Card.Title style={styles.cardTitle}>Your Astronomy photo of the day...</Card.Title>
+          <Card.Title style={styles.cardTitle}><Text>Your Astronomy photo of the day...</Text></Card.Title>
           <Card.Image
             source={{
               uri: 'https://www.nasa.gov/sites/default/files/patagonianshelf_vir_2014336_lrg.jpg',
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: 10,
     backgroundColor: '#587cc4',
     padding: 8,
   },
@@ -106,8 +106,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     marginTop: 10,
     fontSize: 12,
-    textDecorationLine: 'underline',
-    textDecorationColor: '#fff',
-    textDecorationThickness: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white'
     }
 });
