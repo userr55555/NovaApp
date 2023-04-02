@@ -5,6 +5,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import {Registered} from './screens/registeredScreen';
 import {Register} from './screens/registerScreen';
 import {SignIn} from './screens/signInScreen';
+import {Astronomy} from './screens/astronomyDetails';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -29,6 +30,11 @@ export default function App() {
             <Stack.Screen
               name="SignIn"
               component={SignIn}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="Astronomy"
+              component={Astronomy}
               options={{ title: '' }}
             />
           </Stack.Group>

@@ -50,14 +50,14 @@ export function SignIn({ navigation }) {
             textAlign: 'center',
           }}>
           <Text style={{ color: 'white', fontSize: 18, fontFamily: 'Arial' }}>
-            Sign In
+            {'Sign In'}
           </Text>
         </View>
       </TouchableOpacity>
       <View style={styles.reg}>
-        <Text style={styles.regText}>Dont have an account? </Text>
+        <Text style={styles.regText}>{'Dont have an account? '}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.regLink}>Register now</Text>
+          <Text style={styles.regLink}>{'Register now'}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Arial',
     fontSize: 12,
-    borderBottom: '1 solid white'
+    borderBottomWidth: 1,
+    borderBottomColor: 'white'
   },
 });

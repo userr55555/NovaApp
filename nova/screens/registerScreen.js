@@ -71,7 +71,7 @@ export function Register({ navigation }) {
         </View>
       </TouchableOpacity>
       <View style={styles.signIn}>
-        <Text style={styles.signInText}>Have an account? </Text>{' '}
+        <Text style={styles.signInText}>Have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
           <Text style={styles.signInLink}>Sign in</Text>
         </TouchableOpacity>
