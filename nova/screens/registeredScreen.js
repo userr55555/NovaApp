@@ -13,7 +13,7 @@ import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
 
-export function Registered({ route }) {
+export function Registered({ route, navigation }) {
   const { user  } = route.params;
   return (
     <View style={styles.container}>
@@ -43,6 +43,24 @@ export function Registered({ route }) {
           </TouchableOpacity>
         </Card>
       </View>
+
+      <View style={[styles.cardContainer, {marginTop:250}]}>
+        <Card containerStyle={styles.cardStyle}>
+          <Card.Title style={styles.cardTitle}>
+            <Text>Take a trip to Mars...</Text>
+          </Card.Title>
+          <Card.Image
+            source={{
+              uri: 'https://photojournal.jpl.nasa.gov/jpegMod/PIA03154_modest.jpg',
+            }}
+            style={{ borderRadius: 10 }}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('Astronomy')}>
+            <Text style={styles.cardSubtitle}> {'More info'}</Text>
+          </TouchableOpacity>
+        </Card>
+      </View>
+      
     </View>
   );
 }
