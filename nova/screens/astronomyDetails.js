@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
 export function Astronomy({ route, navigation }) {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Registered', { user: 'name' })}>
-          <Text style={styles.goBack}> {'< Go back'}</Text>
+          <Text style={[styles.goBack, {marginTop:25}]}> {'< Go back'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -43,7 +43,7 @@ export function Astronomy({ route, navigation }) {
           </View>
         </Card>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: 20,
     backgroundColor: '#587cc4',
     padding: 8,
   },

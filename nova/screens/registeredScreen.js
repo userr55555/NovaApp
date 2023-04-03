@@ -16,7 +16,7 @@ import { Card } from 'react-native-elements';
 export function Registered({ route, navigation }) {
   const { user  } = route.params;
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
           source={{
@@ -38,13 +38,13 @@ export function Registered({ route, navigation }) {
               uri: 'https://www.nasa.gov/sites/default/files/patagonianshelf_vir_2014336_lrg.jpg',
             }} style={{borderRadius: 10}}
           />
-        <TouchableOpacity onPress={() => alert('Link clicked!')}>
-            <Text style={styles.cardSubtitle}>More info</Text>
+         <TouchableOpacity onPress={() => navigation.navigate('Astronomy')}>
+            <Text style={styles.cardSubtitle}> {'More info'}</Text>
           </TouchableOpacity>
         </Card>
       </View>
 
-      <View style={[styles.cardContainer, {marginTop:250}]}>
+      <View style={[styles.cardContainer, {marginTop:275}]}>
         <Card containerStyle={styles.cardStyle}>
           <Card.Title style={styles.cardTitle}>
             <Text>Take a trip to Mars...</Text>
@@ -55,13 +55,13 @@ export function Registered({ route, navigation }) {
             }}
             style={{ borderRadius: 10 }}
           />
-          <TouchableOpacity onPress={() => navigation.navigate('Astronomy')}>
-            <Text style={styles.cardSubtitle}> {'More info'}</Text>
+          <TouchableOpacity onPress={() => alert('Link clicked!')}>
+            <Text style={styles.cardSubtitle}>More info</Text>
           </TouchableOpacity>
         </Card>
       </View>
       
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     padding: 10,
+    marginTop:25
   },
   profilePicture: {
     width: 100,
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     position: 'absolute',
-    top: 150,
+    top: 175,
     left:0,
     width: '100%'
   },

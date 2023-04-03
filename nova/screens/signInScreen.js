@@ -7,15 +7,17 @@ import {
   Button,
   TouchableOpacity,
   Image,
+
 } from 'react-native';
 import Constants from 'expo-constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export function SignIn({ navigation }) {
   const [user, setUser] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image
         style={{ height: 100, width: 300 }}
         source={require('../assets/nova-logo-bg.png')}
@@ -60,7 +62,7 @@ export function SignIn({ navigation }) {
           <Text style={styles.regLink}>{'Register now'}</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
