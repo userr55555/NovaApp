@@ -3,7 +3,9 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'r
 import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
+
 export function Astronomy({ route, navigation }) {
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>

@@ -13,6 +13,7 @@ import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
 
+
 export function Registered({ route, navigation }) {
   const { user  } = route.params;
   return (

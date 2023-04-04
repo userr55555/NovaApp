@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 
+
 export function Register({ navigation }) {
   const [user, setUser] = React.useState('');
   const [bday, setBday] = React.useState('');

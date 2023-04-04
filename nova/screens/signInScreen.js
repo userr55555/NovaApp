@@ -11,6 +11,7 @@ import {
 import Constants from 'expo-constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 export function SignIn({ navigation }) {
   const [user, setUser] = React.useState('');
   const [password, setPassword] = React.useState('');
