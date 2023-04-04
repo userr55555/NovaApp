@@ -9,6 +9,7 @@ import {
   Image,
   SafeAreaView
 } from 'react-native';
+import { useValidation } from 'react-native-form-validator'
 import Constants from 'expo-constants';
 
 
@@ -17,6 +18,20 @@ export function Register({ navigation }) {
   const [bday, setBday] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  const { validate, isFieldInError, getErrorsInField, getErrorMessages } = 
+  useValidation({
+    state: { user, bday, email, password }
+  })
+
+  const submitHandler = () => {
+    validate({
+      user: {required: true},
+      email: {email: true, required: true},
+      bday: {date: 'YYYY-MM-DD'},
+      password: {required: true}
+    })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,6 +60,9 @@ export function Register({ navigation }) {
         value={bday}
         onChangeText={setBday}
       />
+
+      {isFieldInError('bday') && getErrorsInField('bday').map(errorMessage => (<Text>{errorMessage}</Text>))}
+
       <TextInput
         style={styles.txtbox}
         placeholder="Password"
@@ -53,13 +71,7 @@ export function Register({ navigation }) {
         onChangeText={setPassword}
       />
       <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Registered', {
-            user: user,
-            email: email,
-            bday: bday,
-          });
-        }}>
+        onPress={submitHandler}>
         <View
           style={{
             backgroundColor: '#39518f',
@@ -73,6 +85,7 @@ export function Register({ navigation }) {
           </Text>
         </View>
       </TouchableOpacity>
+      <Text>{getErrorMessages()}</Text>
       <View style={styles.signIn}>
         <Text style={styles.signInText}>Have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
