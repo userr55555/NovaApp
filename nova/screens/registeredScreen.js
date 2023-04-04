@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     padding: 10,
-    marginTop:25
+    marginTop:30
   },
   profilePicture: {
     width: 100,

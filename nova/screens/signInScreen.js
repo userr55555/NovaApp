@@ -7,7 +7,6 @@ import {
   Button,
   TouchableOpacity,
   Image,
-
 } from 'react-native';
 import Constants from 'expo-constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,10 +17,10 @@ export function SignIn({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image
+      <View style={styles.novaLogo}><Image
         style={{ height: 100, width: 300 }}
         source={require('../assets/nova-logo-bg.png')}
-      />
+      /></View>
       <Text style={styles.logInAcc}>Login to your account</Text>
       <TextInput
         style={styles.txtbox}
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
   reg: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 0,
+    bottom: 20,
     left: 0,
   },
   regText: {
@@ -109,4 +108,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'white'
   },
+  novaLogo:{
+    justifyContent:'center',
+    alignItems:'center'
+  }
 });

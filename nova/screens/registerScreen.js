@@ -19,10 +19,11 @@ export function Register({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image
+      <View style={styles.novaLogo}><Image
         style={{ height: 100, width: 300 }}
         source={require('../assets/nova-logo-bg.png')}
-      />
+      /></View>
+      
       <Text style={styles.createAcc}>Create your account</Text>
 
       <TextInput
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
   signIn: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 0,
+    bottom: 20,
     left: 0,
   },
   signInText: {
@@ -124,4 +125,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'white'
   },
+  novaLogo:{
+    justifyContent:'center',
+    alignItems:'center'
+  }
 });

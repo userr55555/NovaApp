@@ -9,7 +9,7 @@ export function Astronomy({ route, navigation }) {
       <View style={styles.imageContainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Registered', { user: 'name' })}>
-          <Text style={[styles.goBack, {marginTop:25}]}> {'< Go back'}</Text>
+          <Text style={[styles.goBack, {marginTop:30}]}> {'< Go back'}</Text>
         </TouchableOpacity>
       </View>
 
