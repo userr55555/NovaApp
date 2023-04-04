@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
 export function Astronomy({ route, navigation }) {
-  const url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
+  const url = 'https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
     fetch(url)
