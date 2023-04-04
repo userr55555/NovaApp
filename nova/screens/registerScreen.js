@@ -18,7 +18,7 @@ export function Register({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const { validate, isFieldInError, getErrorsInField, getErrorMessages } = 
+  const { validate, isFieldInError, getErrorsInField, getErrorMessages, isFormValid } = 
   useValidation({
     state: { user, bday, email, password }
   })
@@ -27,9 +27,18 @@ export function Register({ navigation }) {
     validate({
       user: {required: true},
       email: {email: true, required: true},
-      bday: {date: 'YYYY-MM-DD'},
+      bday: {date: 'YYYY-MM-DD', required: true},
       password: {required: true}
     })
+
+    if (isFormValid()) {
+      console.log(email)
+      navigation.navigate('Registered', {
+        user: user,
+        email: email,
+        bday: bday
+      })
+    }
   }
 
   return (
