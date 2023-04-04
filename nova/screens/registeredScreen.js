@@ -16,7 +16,7 @@ import { Card } from 'react-native-elements';
 
 export function Registered({ route, navigation }) {
   const { user  } = route.params;
-  const url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
+  const url = 'https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
     fetch(url)
