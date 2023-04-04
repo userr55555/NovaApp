@@ -16,6 +16,13 @@ import { Card } from 'react-native-elements';
 
 export function Registered({ route, navigation }) {
   const { user  } = route.params;
+  const url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    fetch(url)
+      .then((x) => x.json())
+      .then((json) => setData(json));
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
@@ -36,7 +43,7 @@ export function Registered({ route, navigation }) {
           <Card.Title style={styles.cardTitle}><Text>Your Astronomy photo of the day...</Text></Card.Title>
           <Card.Image
             source={{
-              uri: 'https://www.nasa.gov/sites/default/files/patagonianshelf_vir_2014336_lrg.jpg',
+              uri: data.hdurl,
             }} style={{borderRadius: 10}}
           />
          <TouchableOpacity onPress={() => navigation.navigate('Astronomy')}>

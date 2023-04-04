@@ -5,6 +5,13 @@ import { Card } from 'react-native-elements';
 
 
 export function Astronomy({ route, navigation }) {
+  const url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    fetch(url)
+      .then((x) => x.json())
+      .then((json) => setData(json));
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,30 +25,19 @@ export function Astronomy({ route, navigation }) {
       <View style={styles.cardContainer}>
         <Card containerStyle={styles.cardStyle}>
           <Card.Title style={styles.cardTitle}>
-            <Text>{'Patagonian Plankton Swirls'}</Text>
+            <Text>{data.title}</Text>
           </Card.Title>
           <Card.Image
             source={{
-              uri: 'https://www.nasa.gov/sites/default/files/patagonianshelf_vir_2014336_lrg.jpg',
+              uri: data.hdurl,
             }}
             style={{ borderRadius: 10 }}
           />
           <View>
             <Text style={styles.cardDescription}>
-              Phytoplankton create rich blooms of color in the Atlantic Ocean
-              near South America in this enhanced color image from Dec. 2, 2014.
-              The Patagonian Shelf Break is a biologically rich patch of ocean
-              where airborne dust from the land, iron-rich currents from the
-              south, and upwelling currents from the depths provide a bounty of
-              nutrients for phytoplankton. The bands of color seen here not only
-              reveal the location of plankton, but also the dynamic eddies and
-              currents that carry them.
+              {data.explanation}
             </Text>
-            <Text style={styles.cardCredit}>
-            Image Credit: NASA/Norman Kuring; NOAA; DOD
-            </Text>
-            <Text style={styles.cardCredit}>Last Updated: Mar 31, 2023 </Text>
-            <Text style={styles.cardCredit}>Editor: Monika Luabeya</Text>
+            <Text style={styles.cardCredit}>Date: {data.date} </Text>
           </View>
         </Card>
       </View>
