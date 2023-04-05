@@ -63,7 +63,7 @@ export function Registered({ route, navigation }) {
             }}
             style={{ borderRadius: 10 }}
           />
-          <TouchableOpacity onPress={() => alert('Link clicked!')}>
+          <TouchableOpacity onPress={() => navigation.navigate('MarsRoverPhotos')}>
             <Text style={styles.cardSubtitle}>More info</Text>
           </TouchableOpacity>
         </Card>
