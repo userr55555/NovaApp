@@ -13,6 +13,7 @@ import { Card } from 'react-native-paper';
 export function MarsRoverPhotos({ navigation }) {
     const [images, setImages] = React.useState([]);
     const [modal, showModal] = React.useState(false);
+    const [selectedImage, setSelectedImage] = React.useState(null);
     const API_URL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=900&page=1&api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
 
     React.useEffect(() => {
@@ -23,50 +24,36 @@ export function MarsRoverPhotos({ navigation }) {
     }, []);
 
     const renderItem = ({ item }) => (
-        <SafeAreaView>
-            <TouchableOpacity onPress={() => showModal(true)}>
-                <View>
-                    <Image
-                        source={{ uri: item.img_src }}
-                        style={{ width: '75%', height: 200, margin: 10 }}
-                        resizeMode="cover"
-                    />
-
-                    <Button title="Show Modal" onPress={() => { showModal(true) }} />
-                    <Modal visible={modal} onRequestClose={() => { showModal(false) }}>
-                        <View style={lol.container}>
-                            <View style={lol.modalView}>
-                                <Image
-                                    source={{ uri: item.img_src }}
-                                    style={{ width: '75%', height: 200, margin: 10 }}
-                                    resizeMode="cover"
-                                />
-
-                                <Text>{item.id}</Text>
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
-            </TouchableOpacity>
-        </SafeAreaView>
+        <TouchableOpacity onPress={() => setSelectedImage(item)}>
+            <View>
+                <Image source={{ uri: item.img_src }} style={{ width: '75%', height: 200, margin: 10 }} resizeMode="cover" />
+                <Text>{item.id}</Text>
+            </View>
+        </TouchableOpacity>
     );
 
     return (
         <View style={[styles.container, { flex: 1 }]}>
-            <Text> Mars Rover Photos</Text>
+            <Text>Mars Rover Photos</Text>
             <Text>Camera: Curiosity</Text>
-            <TouchableOpacity onPress={() => showModal(true)}>
-                <FlatList
-                    data={images}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-            </TouchableOpacity>
+            <FlatList data={images} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
+            {selectedImage ? (
+                <Modal visible={true} onRequestClose={() => setSelectedImage(null)}>
+                    <View style={styles.container}>
+                        <Card style={modalStyle.modalView}>
+                            <Image source={{ uri: selectedImage.img_src }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
+                            <Text>{selectedImage.id}</Text>
+                            <Text>{selectedImage.camera.name}</Text>
+                            <Button title="Close" onPress={() => setSelectedImage(null)} />
+                        </Card>
+                    </View>
+                </Modal>
+            ) : null}
         </View>
     );
 }
 
-const lol = StyleSheet.create({
+const modalStyle = StyleSheet.create({
     modalView: {
         modalView: {
             backgroundColor: "white",
