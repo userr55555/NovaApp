@@ -9,12 +9,32 @@ import {
   Image,
 } from 'react-native';
 import Constants from 'expo-constants';
+import { useValidation } from 'react-native-form-validator'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export function SignIn({ navigation }) {
   const [user, setUser] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  const { validate, getErrorMessages, isFormValid } = 
+  useValidation({
+    state: { user, password }
+  })
+
+  const submitHandler = () => {
+    validate({
+      user: {required: true},
+      password: {required: true}
+    })
+
+    if (isFormValid()) {
+      navigation.navigate('Registered', {
+        user: user,
+        password: password
+      })
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,12 +57,7 @@ export function SignIn({ navigation }) {
         onChangeText={setPassword}
       />
       <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Registered', {
-            user: user,
-            password: password,
-          });
-        }}>
+        onPress={submitHandler}>
         <View
           style={{
             backgroundColor: '#39518f',
@@ -56,6 +71,7 @@ export function SignIn({ navigation }) {
           </Text>
         </View>
       </TouchableOpacity>
+      <Text>{getErrorMessages()}</Text>
       <View style={styles.reg}>
         <Text style={styles.regText}>{'Dont have an account? '}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>

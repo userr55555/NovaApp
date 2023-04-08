@@ -15,20 +15,29 @@ import { Card } from 'react-native-elements';
 
 
 export function Registered({ route, navigation }) {
-  const { user  } = route.params;
+  const { user, bday  } = route.params;
   const url = 'https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
+  const bdayUrl = `https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ&date=${bday}`;
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
     fetch(url)
       .then((x) => x.json())
       .then((json) => setData(json));
   }, []);
+
+  const [bdayData, setBdayData] = React.useState([]);
+  React.useEffect(() => {
+    fetch(bdayUrl)
+      .then((x) => x.json())
+      .then((json) => setBdayData(json));
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
           source={{
-            uri: 'https://apod.nasa.gov/apod/image/2303/PIA21923_fig1SeeingTitan1024.jpg',
+            uri: bday > '1995-06-15' ? bdayData.hdurl : 'https://apod.nasa.gov/apod/image/2303/PIA21923_fig1SeeingTitan1024.jpg',
           }}
           style={styles.profilePicture}
         />
