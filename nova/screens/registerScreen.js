@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   Button,
+  Alert,
   TouchableOpacity,
   Image,
   SafeAreaView
@@ -19,17 +20,17 @@ export function Register({ navigation }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const { validate, isFieldInError, getErrorsInField, getErrorMessages, isFormValid } = 
-  useValidation({
-    state: { user, bday, email, password }
-  })
+  const { validate, isFieldInError, getErrorsInField, getErrorMessages, isFormValid } =
+    useValidation({
+      state: { user, bday, email, password }
+    })
 
   const submitHandler = () => {
     validate({
-      user: {required: true},
-      email: {email: true, required: true},
-      bday: {date: 'YYYY-MM-DD', required: true},
-      password: {required: true}
+      user: { required: true },
+      email: { email: true, required: true },
+      bday: { date: 'YYYY-MM-DD', required: true },
+      password: { required: true }
     })
 
     if (isFormValid()) {
@@ -37,8 +38,11 @@ export function Register({ navigation }) {
       navigation.navigate('Registered', {
         user: user,
         email: email,
-        bday: bday
+        bday: bday,
+        password: password
       })
+    } else {
+      Alert.alert("Invalid Registration", getErrorMessages())
     }
   }
 
@@ -48,7 +52,7 @@ export function Register({ navigation }) {
         style={{ height: 100, width: 300 }}
         source={require('../assets/nova-logo-bg.png')}
       /></View>
-      
+
       <Text style={styles.createAcc}>Create your account</Text>
 
       <TextInput
@@ -57,12 +61,18 @@ export function Register({ navigation }) {
         value={user}
         onChangeText={setUser}
       />
+
+      {isFieldInError('user') && getErrorsInField('user').map(errorMessage => (<Text style={{color:"red"}}>{errorMessage}</Text>))}
+
       <TextInput
         style={styles.txtbox}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
       />
+
+      {isFieldInError('email') && getErrorsInField('email').map(errorMessage => (<Text style={{color:"red"}}>{errorMessage}</Text>))}
+
       <TextInput
         style={styles.txtbox}
         placeholder="Birthday YYYY-MM-DD"
@@ -70,7 +80,7 @@ export function Register({ navigation }) {
         onChangeText={setBday}
       />
 
-      {isFieldInError('bday') && getErrorsInField('bday').map(errorMessage => (<Text>{errorMessage}</Text>))}
+      {isFieldInError('bday') && getErrorsInField('bday').map(errorMessage => (<Text style={{color:"red"}}>{errorMessage}</Text>))}
 
       <TextInput
         style={styles.txtbox}
@@ -79,6 +89,9 @@ export function Register({ navigation }) {
         value={password}
         onChangeText={setPassword}
       />
+
+      {isFieldInError('password') && getErrorsInField('password').map(errorMessage => (<Text style={{color:"red"}}>{errorMessage}</Text>))}
+
       <TouchableOpacity
         onPress={submitHandler}>
         <View
@@ -94,7 +107,6 @@ export function Register({ navigation }) {
           </Text>
         </View>
       </TouchableOpacity>
-      <Text>{getErrorMessages()}</Text>
       <View style={styles.signIn}>
         <Text style={styles.signInText}>Have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
@@ -122,9 +134,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     color: '#39518f',
   },
-  createAcc:{
-    textAlign:'center',
-     color: 'white',
+  createAcc: {
+    textAlign: 'center',
+    color: 'white',
     fontFamily: 'Arial',
     fontSize: 20,
     fontWeight: 'bold',
@@ -148,8 +160,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'white'
   },
-  novaLogo:{
-    justifyContent:'center',
-    alignItems:'center'
+  novaLogo: {
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
