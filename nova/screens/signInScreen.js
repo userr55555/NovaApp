@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import Constants from 'expo-constants';
-import { useValidation } from 'react-native-form-validator'
+import { useValidation } from 'react-native-form-validator';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
