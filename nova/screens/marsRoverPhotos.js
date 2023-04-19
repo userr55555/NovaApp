@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, FlatList, Image, SafeAreaView, TouchableOpacity, Modal, Button } from 'react-native';
 import { styles } from '../Style'
-import ProgressBar from 'react-native-progress/Bar';
-import ImageProgress from 'react-native-image-progress';
+
 
 import Constants from 'expo-constants';
 
@@ -28,7 +27,7 @@ export function MarsRoverPhotos({ navigation }) {
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => setSelectedImage(item)}>
             <View>
-                <ImageProgress source={{ uri: item.img_src }} style={{ width: '75%', height: 200, margin: 10 }} resizeMode="cover" />
+                <Image source={{ uri: item.img_src }} style={{ width: '75%', height: 200, margin: 10 }} resizeMode="cover" />
                 <Text>{item.id}</Text>
             </View>
         </TouchableOpacity>
@@ -49,7 +48,7 @@ export function MarsRoverPhotos({ navigation }) {
                 <Modal visible={true} onRequestClose={() => setSelectedImage(null)}>
                     <View style={styles.container}>
                         <Card style={modalStyle.modalView}>
-                            <ImageProgress source={{ uri: selectedImage.img_src }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
+                            <Image source={{ uri: selectedImage.img_src }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
                             <Text>{selectedImage.id}</Text>
                             <Text>{selectedImage.camera.name}</Text>
                             <Button title="Close" onPress={() => setSelectedImage(null)} />
@@ -60,6 +59,7 @@ export function MarsRoverPhotos({ navigation }) {
         </View>
     );
 }
+
 
 const modalStyle = StyleSheet.create({
     modalView: {
