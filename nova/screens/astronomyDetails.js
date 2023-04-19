@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView, Animated, Easing } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView, Animated, Easing, Platform, ProgressBarAndroid, ProgressViewIOS } from 'react-native';
 import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
 
 export function Astronomy({ route, navigation }) {
   const url = 'https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
   var fadeValue = React.useRef(new Animated.Value(0)).current;
   var opacity = fadeValue;
 
@@ -22,23 +24,44 @@ export function Astronomy({ route, navigation }) {
     ]).start();
   };
 
-  const apiFetch = () => {
-    fetch(url)
-      .then((x) => {
-        if (x.ok) {
-          return x.json();
-        } else {
-          throw new Error('API response not ok.');
-        }
-      })
-      .then((json) => setData(json)).catch((err) => console.log(err));
-    
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(url);
+      const apiData = await response.json();
+      setData(apiData);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
+  const handleFetch = () => {
+    setProgress(0.1);
+    const intervalId = setInterval(() => {
+      setProgress((prevProgress) => {
+        const newProgress = prevProgress + 0.1;
+        console.log(progress);
+        if (newProgress >= 1) {
+          clearInterval(intervalId);
+        }
+        return newProgress;
+      });
+    }, 1000);
+    fetchData();
+  };
+  const progressBar = Platform.select({
+    ios: <ProgressViewIOS progress={progress} color="red" />,
+    android: <ProgressBarAndroid styleAttr="Horizontal" progress={progress} color="red" />,
+  });
   const render = () => {
-    apiFetch();
+    handleFetch();
     fadeFunc();
   }
+
+  React.useEffect(() => {
+    render();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -68,6 +91,7 @@ export function Astronomy({ route, navigation }) {
             </Text>
             <Text style={styles.cardCredit}>Date: {data.date} </Text>
           </Animated.View>
+          {isLoading && progressBar}
         </Card>
       </View>
     </SafeAreaView>
