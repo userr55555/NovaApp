@@ -1,17 +1,44 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView, Animated, Easing } from 'react-native';
 import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
 
 export function Astronomy({ route, navigation }) {
-  const url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
+  const url = 'https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
   const [data, setData] = React.useState([]);
-  React.useEffect(() => {
+  var fadeValue = React.useRef(new Animated.Value(0)).current;
+  var opacity = fadeValue;
+
+  const fadeFunc = () => {
+    Animated.sequence([
+      Animated.delay(1000),
+      Animated.timing(fadeValue, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true
+      })
+    ]).start();
+  };
+
+  const apiFetch = () => {
     fetch(url)
-      .then((x) => x.json())
-      .then((json) => setData(json));
-  }, []);
+      .then((x) => {
+        if (x.ok) {
+          return x.json();
+        } else {
+          throw new Error('API response not ok.');
+        }
+      })
+      .then((json) => setData(json)).catch((err) => console.log(err));
+    
+  };
+
+  const render = () => {
+    apiFetch();
+    fadeFunc();
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,18 +54,20 @@ export function Astronomy({ route, navigation }) {
           <Card.Title style={styles.cardTitle}>
             <Text>{data.title}</Text>
           </Card.Title>
+          <Animated.View>
           <Card.Image
             source={{
               uri: data.hdurl,
             }}
             style={{ borderRadius: 10 }}
           />
-          <View>
+          </Animated.View>
+          <Animated.View style={{opacity}}>
             <Text style={styles.cardDescription}>
               {data.explanation}
             </Text>
             <Text style={styles.cardCredit}>Date: {data.date} </Text>
-          </View>
+          </Animated.View>
         </Card>
       </View>
     </SafeAreaView>
