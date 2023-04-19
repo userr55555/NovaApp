@@ -7,7 +7,7 @@ import {
   Button,
   Animated,
   Image,
-  SafeAreaView, TouchableOpacity, ScrollView
+  SafeAreaView, TouchableOpacity, ScrollView, Easing, FlatList
 } from 'react-native';
 import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
@@ -34,25 +34,49 @@ export function Registered({ route, navigation }) {
       .then((json) => setBdayData(json));
   }, []);
 
+  const spinValue = React.useRef(new Animated.Value(0)).current;
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+        Animated.timing(spinValue, {
+          toValue: 1,
+          duration: 500,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        })
+    ]).start();
+  }, []);
 
-
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+    // <ScrollView contentContainerStyle={styles.scrollViewContent}>
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <SafeAreaView style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image
+          <Animated.Image
             source={{
               uri: bday > '1995-06-15' ? bdayData.hdurl : 'https://apod.nasa.gov/apod/image/2303/PIA21923_fig1SeeingTitan1024.jpg',
             }}
-            style={styles.profilePicture}
+            style={[
+              styles.profilePicture,
+              { opacity: fadeAnim, transform: [{ rotate: spin }] },
+            ]}
           />
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.welcomeText}>Welcome, </Text>
             <Text style={styles.userName}>{user}</Text>
           </View>
         </View>
-
+         
         <View style={styles.cardContainer}>
           <Card containerStyle={styles.cardStyle}>
             <Card.Title style={styles.cardTitle}><Text>Your Astronomy photo of the day...</Text></Card.Title>
@@ -98,8 +122,29 @@ export function Registered({ route, navigation }) {
           </Card>
         </View>
 
+        <View style={[styles.cardContainer, { marginTop: 825 }]}>
+          <Card containerStyle={styles.cardStyle}>
+            <Card.Title style={styles.cardTitle}>
+              <Text>Planetary Info</Text>
+            </Card.Title>
+            <Card.Image
+              source={{
+                uri: 'https://c4.wallpaperflare.com/wallpaper/630/43/768/space-earth-sun-solar-system-wallpaper-preview.jpg'
+                ,
+              }}
+              style={{ borderRadius: 10 }}
+            />
+            <TouchableOpacity onPress={() => navigation.navigate('PlanetaryInfo')}>
+              <Text style={styles.cardSubtitle}>More info</Text>
+            </TouchableOpacity>
+          </Card>
+        </View>
+
+
       </SafeAreaView>
       </ScrollView>
+   
+
   );
 }
 
@@ -110,6 +155,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: '#587cc4',
     padding: 8,
+    overflow: "scroll",
+    height: 1300
   },
   imageContainer: {
     position: 'absolute',
@@ -144,7 +191,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 175,
     left: 0,
-    width: '100%'
+    width: '100%',
+    
+ 
   },
   cardStyle: {
     backgroundColor: '#587cc4',
@@ -169,5 +218,9 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     backgroundColor: '#587cc4', 
     flexGrow: 1,
+  },
+  flatlistContainer:{
+    height: 400,
+    overflow: "scroll",
   },
 });

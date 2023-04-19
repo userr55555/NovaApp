@@ -8,6 +8,7 @@ import {SignIn} from './screens/signInScreen';
 import {Astronomy} from './screens/astronomyDetails';
 import {RandomAstronomy} from './screens/randomAstronomy';
 import { MarsRoverPhotos } from './screens/marsRoverPhotos';
+import {PlanetaryInfo} from './screens/PlanetaryInfo';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -47,6 +48,11 @@ export default function App() {
              <Stack.Screen
               name="MarsRoverPhotos"
               component={MarsRoverPhotos}
+              options={{ title: '' }}
+            />
+             <Stack.Screen
+              name="PlanetaryInfo"
+              component={PlanetaryInfo}
               options={{ title: '' }}
             />
           </Stack.Group>
