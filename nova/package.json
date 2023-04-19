@@ -9,6 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-community/progress-bar-android": "github:react-native-community/progress-bar-android",
+    "@react-native-community/progress-view": "github:react-native-community/progress-view",
     "@react-navigation/native": "*",
     "@react-navigation/stack": "*",
     "expo": "~48.0.9",

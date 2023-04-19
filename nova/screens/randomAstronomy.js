@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, SafeAreaView, Animated, Easing } from 'react-native';
 import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
@@ -7,21 +7,49 @@ import { Card } from 'react-native-elements';
 export function RandomAstronomy({ route, navigation }) {
   const [data, setData] = React.useState([]);
   const url = `https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ&count=1`;
-  React.useEffect(() => {
+  var fadeValue = React.useRef(new Animated.Value(0)).current;
+  var opacity = fadeValue;
+
+  const fadeFunc = () => {
+    Animated.sequence([
+      Animated.delay(1000),
+      Animated.timing(fadeValue, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true
+      })
+    ]).start();
+  };
+
+  const apiFetch = () => {
     fetch(url)
-      .then((x) => {if (x.ok) {
-        return x.json();
-      } else {
-        throw new Error('API response not ok.');
-      }})
-      .then((json) => setData(json[0])).catch((err)=>console.log(err));
+      .then((x) => {
+        if (x.ok) {
+          return x.json();
+        } else {
+          throw new Error('API response not ok.');
+        }
+      })
+      .then((json) => setData(json[0])).catch((err) => console.log(err));
+    
+  };
+
+  const render = () => {
+    apiFetch();
+    fadeFunc();
+  }
+
+  React.useEffect(() => {
+    render();
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Registered', { user: 'name' })}>
-          <Text style={[styles.goBack, {marginTop:30}]}> {'< Go back'}</Text>
+          <Text style={[styles.goBack, { marginTop: 30 }]}> {'< Go back'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -30,17 +58,24 @@ export function RandomAstronomy({ route, navigation }) {
           <Card.Title style={styles.cardTitle}>
             <Text>{data.title}</Text>
           </Card.Title>
-          <Card.Image
-            source={{
-              uri: data.hdurl,
-            }}
-            style={{ borderRadius: 10 }}
-          />
+          <Animated.View style={{ opacity }}>
+            <Card.Image
+              source={{
+                uri: data.hdurl,
+              }}
+              style={{ borderRadius: 10 }}
+            />
+          </Animated.View>
           <View>
-            <Text style={styles.cardDescription}>
-              {data.explanation}
-            </Text>
-            <Text style={styles.cardCredit}>Date: {data.date} </Text>
+            <Animated.View style={{ opacity }}>
+              <Text style={styles.cardDescription}>
+                {data.explanation}
+              </Text>
+              <Text style={styles.cardCredit}>Date: {data.date} </Text>
+            </Animated.View>
+            <TouchableOpacity onPress={() => { fadeValue.setValue(0); render(); }}>
+              <Text style={styles.cardSubtitle}> {'Random Photo'}</Text>
+            </TouchableOpacity>
           </View>
         </Card>
       </View>
@@ -62,8 +97,8 @@ const styles = StyleSheet.create({
     left: 0,
     padding: 10,
   },
-  goBack:{
-     color: 'white',
+  goBack: {
+    color: 'white',
     fontFamily: 'Arial',
 
   },
@@ -90,7 +125,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     marginTop: 10,
     fontSize: 12,
-   
+
   },
   cardCredit: {
     textAlign: 'left',
@@ -98,6 +133,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     marginTop: 10,
     fontSize: 12,
-    
+
   },
+  cardSubtitle: {
+    textAlign: 'center',
+    color: 'white',
+    fontFamily: 'Arial',
+    marginTop: 10,
+    fontSize: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white'
+  }
 });
