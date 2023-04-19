@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, FlatList, Image, SafeAreaView, TouchableOpacity, Modal, Button } from 'react-native';
 import { styles } from '../Style'
+import ProgressBar from 'react-native-progress/Bar';
+import ImageProgress from 'react-native-image-progress';
 
 import Constants from 'expo-constants';
 
@@ -26,14 +28,20 @@ export function MarsRoverPhotos({ navigation }) {
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => setSelectedImage(item)}>
             <View>
-                <Image source={{ uri: item.img_src }} style={{ width: '75%', height: 200, margin: 10 }} resizeMode="cover" />
+                <ImageProgress source={{ uri: item.img_src }} style={{ width: '75%', height: 200, margin: 10 }} resizeMode="cover" />
                 <Text>{item.id}</Text>
             </View>
         </TouchableOpacity>
     );
 
     return (
-        <View style={[styles.container, { flex: 1 }]}>
+        <View style={[styles.container, { flex: 1 , paddingTop:90}]}>
+            <View style={styles.imageContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Registered', { user: 'name' })}>
+          <Text style={[styles.goBack, {marginTop:10}]}> {'< Go back'}</Text>
+        </TouchableOpacity>
+      </View>
             <Text>Mars Rover Photos</Text>
             <Text>Camera: Curiosity</Text>
             <FlatList data={images} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
@@ -41,7 +49,7 @@ export function MarsRoverPhotos({ navigation }) {
                 <Modal visible={true} onRequestClose={() => setSelectedImage(null)}>
                     <View style={styles.container}>
                         <Card style={modalStyle.modalView}>
-                            <Image source={{ uri: selectedImage.img_src }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
+                            <ImageProgress source={{ uri: selectedImage.img_src }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
                             <Text>{selectedImage.id}</Text>
                             <Text>{selectedImage.camera.name}</Text>
                             <Button title="Close" onPress={() => setSelectedImage(null)} />
@@ -69,6 +77,18 @@ const modalStyle = StyleSheet.create({
         backgroundColor: "rgba(1,1,0,0.8)",
         flex: 1,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+       
     },
+    imageContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        padding: 10,
+      },
+      goBack:{
+        color: 'white',
+       fontFamily: 'Arial',
+   
+     },
 })

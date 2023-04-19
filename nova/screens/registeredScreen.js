@@ -38,6 +38,7 @@ export function Registered({ route, navigation }) {
 
 
   return (
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <SafeAreaView style={styles.container}>
         <View style={styles.imageContainer}>
           <Image
@@ -98,6 +99,7 @@ export function Registered({ route, navigation }) {
         </View>
 
       </SafeAreaView>
+      </ScrollView>
   );
 }
 
@@ -163,5 +165,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     borderBottomWidth: 1,
     borderBottomColor: 'white'
-  }
+  },
+  scrollViewContent: {
+    backgroundColor: '#587cc4', 
+    flexGrow: 1,
+  },
 });
