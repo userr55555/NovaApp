@@ -154,6 +154,9 @@ const modalStyle = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  goBack: {
+    color: 'white',
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarsRoverPhotos);
