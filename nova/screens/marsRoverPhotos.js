@@ -86,10 +86,6 @@ React.useEffect(() => {
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleImageSelection(item)}>
       <View>
-      <TouchableOpacity
-          onPress={() => navigation.navigate('Registered', { user: user, bday:bday })}>
-          <Text style={[styles.goBack, { marginTop: 30 }]}> {'< Go back'}</Text>
-        </TouchableOpacity>
         <ImageProgress
           source={{ uri: item.img_src }}
           style={{ width: '75%', height:150, margin: 10, borderRadius: 10}}
@@ -104,6 +100,10 @@ React.useEffect(() => {
 
   return (
     <View style={[styles.container, { flex: 1}]}>
+      <TouchableOpacity
+          onPress={() => navigation.navigate('Registered', { user: user, bday:bday })}>
+          <Text style={[styles.goBack, { marginTop: 30 }]}> {'< Go back'}</Text>
+        </TouchableOpacity>
       <Text style={[styles.cardTitle,{fontWeight:"bold", marginTop: 20, paddingBottom:5, fontSize: 30}]}>Mars Rover Photos</Text>
       <Text style={[styles.cardTitle,{fontWeight:"bold",  paddingBottom:5, fontSize: 20}]}>Curiosity Camera</Text>
 
@@ -140,10 +140,8 @@ React.useEffect(() => {
 
 const modalStyle = StyleSheet.create({
   modalView: {
-    margin: 10,
     backgroundColor: '#587cc4',
     borderRadius: 20,
-    padding: 35,
 
     shadowColor: '#000',
     shadowOffset: {
