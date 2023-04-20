@@ -76,7 +76,9 @@ function Register({
         bday: bday,
         password: password,
       });
-    } 
+    } else {
+      Alert.alert('Invalid Registration');
+    }
   };
 
   return (
