@@ -1,20 +1,4 @@
-{
-  /*
- Before using this code install these two dependencies
- npm install @ja-ka/react-native-fade-in-flatlist --force
-npm install --save react-native-really-awesome-button --force
-also remove the default keyword after export if it dosent export
- 
- */
-}{
-  /*
- Before using this code install these two dependencies
- npm install @ja-ka/react-native-fade-in-flatlist --force
-npm install --save react-native-really-awesome-button --force
-also remove the default keyword after export if it dosent export
- 
- */
-}
+
 import React, { useState } from 'react';
 import { FadeInFlatList } from '@ja-ka/react-native-fade-in-flatlist';
 import { ThemedButton } from 'react-native-really-awesome-button';
