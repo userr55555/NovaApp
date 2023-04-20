@@ -27,7 +27,7 @@ import {
   export function Set_Email(email) {
     return {
       type: SET_EMAIL,
-      payload: email,
+      payload: email.trim(),
     };
   }
   
