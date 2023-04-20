@@ -1,4 +1,5 @@
-import {combineReducers} from 'redux';
-import reducer from '../reducer/marsRoverReducer'
+import {configureStore} from '@reduxjs/toolkit';
+import reducer from '../reducer/index'
 
-export default combineReducers({reducer})
+export default configureStore({reducer})
+

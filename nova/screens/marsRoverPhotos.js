@@ -1,94 +1,152 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, FlatList, Image, SafeAreaView, TouchableOpacity, Modal, Button } from 'react-native';
-import { styles } from '../Style'
-
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Modal,
+  Button,
+} from 'react-native';
+import { connect } from 'react-redux';
+import {
+  FetchImagesRequest,
+  SetSelectedImage,
+  ClearSelectedImage,
+  FetchImagesFailure,
+  FetchImagesSuccess,
+} from '../redux/actions/index';
+import ImageProgress from 'react-native-image-progress';
 
 import Constants from 'expo-constants';
 
 // You can import from local files
 
+const mapStateToProps = (state) => {
+  return {
+    images: state.reducer.images,
+    isLoading: state.reducer.isLoading,
+    error: state.reducer.error,
+    selectedImage: state.reducer.selectedImage,
+  };
+};
+
+const mapDispatchToProps = {
+  FetchImagesRequest,
+  FetchImagesSuccess,
+  FetchImagesFailure,
+  SetSelectedImage,
+  ClearSelectedImage,
+};
 
 // or any pure javascript modules available in npm
 import { Card } from 'react-native-paper';
 
-export function MarsRoverPhotos({ navigation }) {
-    const [images, setImages] = React.useState([]);
-    const [modal, showModal] = React.useState(false);
-    const [selectedImage, setSelectedImage] = React.useState(null);
-    const API_URL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=900&page=1&api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
+function MarsRoverPhotos({
+  navigation,
+  images,
+  selectedImage,
+  FetchImagesRequest,
+  FetchImagesSuccess,
+  FetchImagesFailure,
+  SetSelectedImage,
+  ClearSelectedImage
+}) {
+  const API_URL =
+    'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=900&page=1&api_key=jk0tEhdHzBqHh7ocLh09zLELJKaHpgiJ3jDVb9bn';
 
-    React.useEffect(() => {
-        fetch(API_URL)
-            .then(response => response.json())
-            .then(data => setImages(data.photos))
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+  const [imagesFetched, setImagesFetched] = React.useState(false);
 
-    const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => setSelectedImage(item)}>
-            <View>
-                <Image source={{ uri: item.img_src }} style={{ width: '75%', height: 200, margin: 10 }} resizeMode="cover" />
-                <Text>{item.id}</Text>
-            </View>
-        </TouchableOpacity>
-    );
+React.useEffect(() => {
+    FetchImagesRequest();
+    fetch(API_URL)
+      .then((response) => response.json())
+      .then((data) => {
+        FetchImagesSuccess(data.photos);
+      })
+      .catch((error) => {
+        FetchImagesFailure(error);
+      });
+  }, []);
 
-    return (
-        <View style={[styles.container, { flex: 1 , paddingTop:90}]}>
-            <View style={styles.imageContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Registered', { user: 'name' })}>
-          <Text style={[styles.goBack, {marginTop:10}]}> {'< Go back'}</Text>
-        </TouchableOpacity>
+  const handleImageSelection = (image) => {
+    SetSelectedImage(image);
+  };
+
+  const handleModalClose = () => {
+    ClearSelectedImage();
+  };
+  const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleImageSelection(item)}>
+      <View>
+        <ImageProgress
+          source={{ uri: item.img_src }}
+          style={{ width: '75%', height: 200, margin: 10 }}
+          resizeMode="cover"
+        />
+        <Text>{item.id}</Text>
       </View>
-            <Text>Mars Rover Photos</Text>
-            <Text>Camera: Curiosity</Text>
-            <FlatList data={images} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
-            {selectedImage ? (
-                <Modal visible={true} onRequestClose={() => setSelectedImage(null)}>
-                    <View style={styles.container}>
-                        <Card style={modalStyle.modalView}>
-                            <Image source={{ uri: selectedImage.img_src }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
-                            <Text>{selectedImage.id}</Text>
-                            <Text>{selectedImage.camera.name}</Text>
-                            <Button title="Close" onPress={() => setSelectedImage(null)} />
-                        </Card>
-                    </View>
-                </Modal>
-            ) : null}
-        </View>
-    );
+    </TouchableOpacity>
+  );
+
+  return (
+    <View style={[styles.container, { flex: 1 }]}>
+      <Text>Mars Rover Photos</Text>
+      <Text>Camera: Curiosity</Text>
+
+      <FlatList
+        data={images}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
+
+      {selectedImage ? (
+        <Modal visible={true} onRequestClose={() => handleModalClose()}>
+          <View style={styles.container}>
+            <Card style={modalStyle.modalView}>
+              <ImageProgress
+                source={{ uri: selectedImage.img_src }}
+                style={{ width: '100%', height: 200 }}
+                resizeMode="cover"
+              />
+              <Text>{selectedImage.id}</Text>
+              <Text>{selectedImage.camera.name}</Text>
+              <Button title="Close" onPress={() => handleModalClose()} />
+            </Card>
+          </View>
+        </Modal>
+      ) : null}
+    </View>
+  );
 }
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: 10,
+    backgroundColor: '#587cc4',
+    padding: 8,
+  },
+});
 const modalStyle = StyleSheet.create({
-    modalView: {
-        modalView: {
-            backgroundColor: "white",
-            height: "auto",
-            padding: 10,
-            borderColor: "black",
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderRadius: 5
-        }
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    container: {
-        backgroundColor: "rgba(1,1,0,0.8)",
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-       
-    },
-    imageContainer: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        padding: 10,
-      },
-      goBack:{
-        color: 'white',
-       fontFamily: 'Arial',
-   
-     },
-})
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MarsRoverPhotos);

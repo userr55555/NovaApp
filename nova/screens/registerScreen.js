@@ -8,50 +8,87 @@ import {
   Alert,
   TouchableOpacity,
   Image,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
-import { useValidation } from 'react-native-form-validator'
+import { useValidation } from 'react-native-form-validator';
 import Constants from 'expo-constants';
+import { connect } from 'react-redux';
+import store from '../redux/store/index'
 
+import {
+  Set_User,
+  Set_Bday,
+  Set_Email,
+  Set_Password,
+} from '../redux/actions/index';
 
-export function Register({ navigation }) {
-  const [user, setUser] = React.useState('');
-  const [bday, setBday] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+const mapStateToProps = (state) => {
+  return {
+    user: state.reducer.user,
+    bday: state.reducer.bday,
+    password: state.reducer.password,
+    email: state.reducer.email,
+  };
+};
 
-  const { validate, isFieldInError, getErrorsInField, getErrorMessages, isFormValid } =
-    useValidation({
-      state: { user, bday, email, password }
-    })
+const mapDispatchToProps = {
+  Set_User,
+  Set_Bday,
+  Set_Email,
+  Set_Password,
+};
+
+function Register({
+  user,
+  bday,
+  password,
+  email,
+  Set_User,
+  Set_Bday,
+  Set_Email,
+  Set_Password,
+  navigation,
+}) {
+  // define functions for validation
+  const {
+    validate,
+    isFieldInError,
+    getErrorsInField,
+    getErrorMessages,
+    isFormValid,
+  } = useValidation({
+    state: { user, bday, email, password },
+  });
 
   const submitHandler = () => {
     validate({
       user: { required: true },
       email: { email: true, required: true },
       bday: { date: 'YYYY-MM-DD', required: true },
-      password: { required: true }
-    })
+      password: { required: true },
+    });
 
     if (isFormValid()) {
-      console.log(email)
+      console.log(email);
       navigation.navigate('Registered', {
         user: user,
         email: email,
         bday: bday,
-        password: password
-      })
+        password: password,
+      });
     } else {
-      Alert.alert("Invalid Registration", getErrorMessages())
+      Alert.alert('Invalid Registration', getErrorMessages());
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.novaLogo}><Image
-        style={{ height: 100, width: 300 }}
-        source={require('../assets/nova-logo-bg.png')}
-      /></View>
+      <View style={styles.novaLogo}>
+        <Image
+          style={{ height: 100, width: 300 }}
+          source={require('../assets/nova-logo-bg.png')}
+        />
+      </View>
 
       <Text style={styles.createAcc}>Create your account</Text>
 
@@ -59,41 +96,60 @@ export function Register({ navigation }) {
         style={styles.txtbox}
         placeholder="Username"
         value={user}
-        onChangeText={setUser}
+        onChangeText={(input) => {
+          Set_User(input);
+        }}
       />
 
-      {isFieldInError('user') && getErrorsInField('user').map(errorMessage => (<Text style={{color:"red"}}>{errorMessage}</Text>))}
+      {isFieldInError('user') &&
+        getErrorsInField('user').map((errorMessage) => (
+          <Text style={{ color: 'red' }}>{errorMessage}</Text>
+        ))}
 
       <TextInput
         style={styles.txtbox}
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(input) => {
+          Set_Email(input);
+        }}
       />
 
-      {isFieldInError('email') && getErrorsInField('email').map(errorMessage => (<Text style={{color:"red"}}>{errorMessage}</Text>))}
+      {isFieldInError('email') &&
+        getErrorsInField('email').map((errorMessage) => (
+          <Text style={{ color: 'red' }}>{errorMessage}</Text>
+        ))}
 
       <TextInput
         style={styles.txtbox}
         placeholder="Birthday YYYY-MM-DD"
         value={bday}
-        onChangeText={setBday}
+        onChangeText={(input) => {
+          Set_Bday(input);
+        }}
       />
 
-      {isFieldInError('bday') && getErrorsInField('bday').map(errorMessage => (<Text style={{color:"red"}}>{errorMessage}</Text>))}
+      {isFieldInError('bday') &&
+        getErrorsInField('bday').map((errorMessage) => (
+          <Text style={{ color: 'red' }}>{errorMessage}</Text>
+        ))}
 
       <TextInput
         style={styles.txtbox}
         placeholder="Password"
         secureTextEntry={true}
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(input) => {
+          Set_Password(input);
+        }}
       />
 
-      {isFieldInError('password') && getErrorsInField('password').map(errorMessage => (<Text style={{color:"red"}}>{errorMessage}</Text>))}
+      {isFieldInError('password') &&
+        getErrorsInField('password').map((errorMessage) => (
+          <Text style={{ color: 'red' }}>{errorMessage}</Text>
+        ))}
 
-      <TouchableOpacity
-        onPress={submitHandler}>
+      <TouchableOpacity onPress={submitHandler}>
         <View
           style={{
             backgroundColor: '#39518f',
@@ -109,9 +165,13 @@ export function Register({ navigation }) {
       </TouchableOpacity>
       <View style={styles.signIn}>
         <Text style={styles.signInText}>Have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SignIn');
+          }}>
           <Text style={styles.signInLink}>Sign in</Text>
         </TouchableOpacity>
+        <Button title="OK" onPress={() => console.log("hello")} />
       </View>
     </SafeAreaView>
   );
@@ -140,7 +200,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     fontSize: 20,
     fontWeight: 'bold',
-    padding: 8
+    padding: 8,
   },
   signIn: {
     flexDirection: 'row',
@@ -158,10 +218,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     fontSize: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'white'
+    borderBottomColor: 'white',
   },
   novaLogo: {
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
