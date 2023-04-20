@@ -65,7 +65,7 @@ export function SignIn({ navigation }) {
             margin: 5,
             textAlign: 'center',
           }}>
-          <Text style={{ color: 'white', fontSize: 18, fontFamily: 'Arial' }}>
+          <Text style={{ color: 'white', fontSize: 18 }}>
             {'Sign In'}
           </Text>
         </View>

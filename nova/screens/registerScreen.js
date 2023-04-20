@@ -77,7 +77,7 @@ function Register({
         password: password,
       });
     } else {
-      Alert.alert('Invalid Registration','Please fill in the required fields.');
+      Alert.alert('Invalid Registration', 'Please fill in the reqired fields.');
     }
   };
 

@@ -1,7 +1,5 @@
 
 import React, { useState } from 'react';
-import { FadeInFlatList } from '@ja-ka/react-native-fade-in-flatlist';
-import { ThemedButton } from 'react-native-really-awesome-button';
 import {
   StyleSheet,
   Text,
