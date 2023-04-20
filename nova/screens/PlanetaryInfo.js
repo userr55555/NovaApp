@@ -6,8 +6,18 @@ npm install --save react-native-really-awesome-button --force
 also remove the default keyword after export if it dosent export
  
  */
+}{
+  /*
+ Before using this code install these two dependencies
+ npm install @ja-ka/react-native-fade-in-flatlist --force
+npm install --save react-native-really-awesome-button --force
+also remove the default keyword after export if it dosent export
+ 
+ */
 }
 import React, { useState } from 'react';
+import { FadeInFlatList } from '@ja-ka/react-native-fade-in-flatlist';
+import { ThemedButton } from 'react-native-really-awesome-button';
 import {
   StyleSheet,
   Text,
@@ -17,7 +27,7 @@ import {
   ActivityIndicator,
   FlatList,
   ImageBackground,
-  SafeAreaView, TouchableOpacity
+  SafeAreaView,TouchableOpacity
 } from 'react-native';
 export function PlanetaryInfo({navigation, route}) {
   const {user} = route.params;
@@ -85,7 +95,7 @@ export function PlanetaryInfo({navigation, route}) {
       <View style={styles.container}>
       <TouchableOpacity
           onPress={() => navigation.navigate('Registered', { user: user })}>
-          <Text style={[styles.goBack, {marginTop:10}]}> {'< Go back'}</Text>
+          <Text style={[styles.goBack, {marginTop:10,color:'#ffffff',textAlign:'left'}]}> {'< Go back'}</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Explore Celestial Bodies..</Text>
         <TextInput
@@ -93,14 +103,16 @@ export function PlanetaryInfo({navigation, route}) {
           onChangeText={(text) => setInputText(text)}
           value={inputText}
           placeholder="Enter a celestial body name.."
+          placeholderTextColor="white"
         />
-        <Button
+        <ThemedButton
           progress
-          title="Search"
           name="bruce"
+          type="danger"
           onPress={handleButtonPress}
           style={styles.button}>
-        </Button>
+          Search
+        </ThemedButton>
 
         {infoError ? (
           <Text style={styles.error}>
@@ -109,7 +121,7 @@ export function PlanetaryInfo({navigation, route}) {
         ) : null}
         {isLoading ? <ActivityIndicator style={styles.loader} /> : null}
         {bodyInfo.length > 0 ? (
-          <FlatList
+          <FadeInFlatList
             data={bodyInfo}
             renderItem={renderBodyInfoItem}
             keyExtractor={(item) => item.key}
@@ -183,11 +195,4 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover', // or 'stretch'
   },
-  goBack:{
-    color: 'white',
-   fontFamily: 'Arial',
-   marginLeft: 10
-
-
- },
 });
