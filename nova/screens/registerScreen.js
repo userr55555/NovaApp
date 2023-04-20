@@ -171,7 +171,6 @@ function Register({
           }}>
           <Text style={styles.signInLink}>Sign in</Text>
         </TouchableOpacity>
-        <Button title="OK" onPress={() => console.log("hello")} />
       </View>
     </SafeAreaView>
   );
