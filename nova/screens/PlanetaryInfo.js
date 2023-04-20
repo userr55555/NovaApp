@@ -19,8 +19,8 @@ import {
   ImageBackground,
   SafeAreaView, TouchableOpacity
 } from 'react-native';
-export function PlanetaryInfo({navigation}) {
-  
+export function PlanetaryInfo({navigation, route}) {
+  const {user} = route.params;
   const [inputText, setInputText] = React.useState('');
   const [bodyInfo, setBodyInfo] = React.useState([]);
   const [infoError, setInfoError] = React.useState(false);
@@ -84,7 +84,7 @@ export function PlanetaryInfo({navigation}) {
       style={styles.backgroundImage}>
       <View style={styles.container}>
       <TouchableOpacity
-          onPress={() => navigation.navigate('Registered', { user: 'name' })}>
+          onPress={() => navigation.navigate('Registered', { user: user })}>
           <Text style={[styles.goBack, {marginTop:10}]}> {'< Go back'}</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Explore Celestial Bodies..</Text>

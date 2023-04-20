@@ -7,6 +7,7 @@ import { Card } from 'react-native-elements';
 
 
 export function RandomAstronomy({ route, navigation }) {
+  const{user} = route.params;
   const [data, setData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
@@ -70,7 +71,7 @@ export function RandomAstronomy({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Registered', { user: 'name' })}>
+          onPress={() => navigation.navigate('Registered', { user: user })}>
           <Text style={[styles.goBack, { marginTop: 30 }]}> {'< Go back'}</Text>
         </TouchableOpacity>
       </View>
@@ -83,7 +84,7 @@ export function RandomAstronomy({ route, navigation }) {
           <Animated.View style={{ opacity }}>
             <Card.Image
               source={{
-                uri: data.hdurl,
+                uri: data.url,
               }}
               style={{ borderRadius: 10 }}
             />

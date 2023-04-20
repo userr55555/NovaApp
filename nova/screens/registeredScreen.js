@@ -12,8 +12,6 @@ import {
 import Constants from 'expo-constants';
 import { Card } from 'react-native-elements';
 
-
-
 export function Registered({ route, navigation }) {
   const { user, bday } = route.params;
   const url = 'https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
@@ -26,9 +24,9 @@ export function Registered({ route, navigation }) {
     fetch(url)
       .then((x) => x.json())
       .then((json) => setData(json));
-      fetch(randUrl)
-    .then((x)=>x.json())
-    .then((json) => setRandomData(json[0]));
+    fetch(randUrl)
+      .then((x) => x.json())
+      .then((json) => setRandomData(json[0]));
     fetch(bdayUrl)
       .then((x) => x.json())
       .then((json) => setBdayData(json));
@@ -43,12 +41,12 @@ export function Registered({ route, navigation }) {
         duration: 1000,
         useNativeDriver: true,
       }),
-        Animated.timing(spinValue, {
-          toValue: 1,
-          duration: 500,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        })
+      Animated.timing(spinValue, {
+        toValue: 1,
+        duration: 500,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      })
     ]).start();
   }, []);
 
@@ -56,7 +54,7 @@ export function Registered({ route, navigation }) {
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
   });
-    // <ScrollView contentContainerStyle={styles.scrollViewContent}>
+  // <ScrollView contentContainerStyle={styles.scrollViewContent}>
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -71,21 +69,31 @@ export function Registered({ route, navigation }) {
               { opacity: fadeAnim, transform: [{ rotate: spin }] },
             ]}
           />
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.welcomeText}>Welcome, </Text>
-            <Text style={styles.userName}>{user}</Text>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.welcomeText}>Welcome, </Text>
+              <Text style={styles.userName}>{user}</Text>
+            </View>
+            <View style={styles.logOut}>
+            <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+              <Text style={styles.logOutText}>Logout</Text>
+              </TouchableOpacity>
+            </View>
           </View>
+
+
         </View>
-         
+
         <View style={styles.cardContainer}>
           <Card containerStyle={styles.cardStyle}>
             <Card.Title style={styles.cardTitle}><Text>Your Astronomy photo of the day...</Text></Card.Title>
             <Card.Image
               source={{
-                uri: data.hdurl,
+                uri: data.url,
               }} style={{ borderRadius: 10 }}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('Astronomy')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Astronomy', { user: user })}>
               <Text style={styles.cardSubtitle}> {'More info'}</Text>
             </TouchableOpacity>
           </Card>
@@ -99,7 +107,7 @@ export function Registered({ route, navigation }) {
                 uri: randomData.hdurl,
               }} style={{ borderRadius: 10 }}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('RandomAstronomy')}>
+            <TouchableOpacity onPress={() => navigation.navigate('RandomAstronomy', { user: user })}>
               <Text style={styles.cardSubtitle}> {'More info'}</Text>
             </TouchableOpacity>
           </Card>
@@ -116,7 +124,7 @@ export function Registered({ route, navigation }) {
               }}
               style={{ borderRadius: 10 }}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('MarsRoverPhotos')}>
+            <TouchableOpacity onPress={() => navigation.navigate('MarsRoverPhotos', { user: user })}>
               <Text style={styles.cardSubtitle}>More info</Text>
             </TouchableOpacity>
           </Card>
@@ -134,7 +142,7 @@ export function Registered({ route, navigation }) {
               }}
               style={{ borderRadius: 10 }}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('PlanetaryInfo')}>
+            <TouchableOpacity onPress={() => navigation.navigate('PlanetaryInfo', { user: user })}>
               <Text style={styles.cardSubtitle}>More info</Text>
             </TouchableOpacity>
           </Card>
@@ -142,8 +150,8 @@ export function Registered({ route, navigation }) {
 
 
       </SafeAreaView>
-      </ScrollView>
-   
+    </ScrollView>
+
 
   );
 }
@@ -192,8 +200,8 @@ const styles = StyleSheet.create({
     top: 175,
     left: 0,
     width: '100%',
-    
- 
+
+
   },
   cardStyle: {
     backgroundColor: '#587cc4',
@@ -216,11 +224,22 @@ const styles = StyleSheet.create({
     borderBottomColor: 'white'
   },
   scrollViewContent: {
-    backgroundColor: '#587cc4', 
+    backgroundColor: '#587cc4',
     flexGrow: 1,
   },
-  flatlistContainer:{
+  flatlistContainer: {
     height: 400,
     overflow: "scroll",
   },
+  logOut: {
+    textAlign: "right",
+    marginLeft: 200
+  },
+  logOutText: {
+    color: "white",
+    fontSize: 11,
+    fontWeight: "bold"
+  }
+
 });
+
