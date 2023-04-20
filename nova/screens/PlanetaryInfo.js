@@ -14,7 +14,7 @@ import {
   SafeAreaView,TouchableOpacity
 } from 'react-native';
 export function PlanetaryInfo({navigation, route}) {
-  const {user} = route.params;
+  const {user, bady} = route.params;
   const [inputText, setInputText] = React.useState('');
   const [bodyInfo, setBodyInfo] = React.useState([]);
   const [infoError, setInfoError] = React.useState(false);
@@ -78,7 +78,7 @@ export function PlanetaryInfo({navigation, route}) {
       style={styles.backgroundImage}>
       <View style={styles.container}>
       <TouchableOpacity
-          onPress={() => navigation.navigate('Registered', { user: user })}>
+          onPress={() => navigation.navigate('Registered', { user: user, bday: bady })}>
           <Text style={[styles.goBack, {marginTop:10,color:'#ffffff',textAlign:'left'}]}> {'< Go back'}</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Explore Celestial Bodies..</Text>
@@ -89,14 +89,14 @@ export function PlanetaryInfo({navigation, route}) {
           placeholder="Enter a celestial body name.."
           placeholderTextColor="white"
         />
-        <ThemedButton
+        <Button
           progress
+          title="Search"
           name="bruce"
           type="danger"
           onPress={handleButtonPress}
-          style={styles.button}>
-          Search
-        </ThemedButton>
+          color="purple">
+        </Button>
 
         {infoError ? (
           <Text style={styles.error}>
@@ -105,7 +105,7 @@ export function PlanetaryInfo({navigation, route}) {
         ) : null}
         {isLoading ? <ActivityIndicator style={styles.loader} /> : null}
         {bodyInfo.length > 0 ? (
-          <FadeInFlatList
+          <FlatList
             data={bodyInfo}
             renderItem={renderBodyInfoItem}
             keyExtractor={(item) => item.key}

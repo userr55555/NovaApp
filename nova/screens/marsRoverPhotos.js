@@ -54,7 +54,7 @@ function MarsRoverPhotos({
   ClearSelectedImage,
   route
 }) {
-    const {user} = route.params;
+    const {user, bday} = route.params;
   const API_URL =
     'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=900&page=1&api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
 
@@ -87,7 +87,7 @@ React.useEffect(() => {
     <TouchableOpacity onPress={() => handleImageSelection(item)}>
       <View>
       <TouchableOpacity
-          onPress={() => navigation.navigate('Registered', { user: user })}>
+          onPress={() => navigation.navigate('Registered', { user: user, bday:bday })}>
           <Text style={[styles.goBack, { marginTop: 30 }]}> {'< Go back'}</Text>
         </TouchableOpacity>
         <ImageProgress

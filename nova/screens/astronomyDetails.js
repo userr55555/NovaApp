@@ -5,7 +5,7 @@ import { Card } from 'react-native-elements';
 
 
 export function Astronomy({ route, navigation }) {
-  const {user} = route.params;
+  const {user, bday} = route.params;
   const url = 'https://api.nasa.gov/planetary/apod?api_key=PvKYVgxKPEez8BdWPQNhMZBrG9D6zdCJSsCYBbdQ';
   const [data, setData] = React.useState({});
   const [isLoading, setIsLoading] = React.useState(false);
@@ -68,7 +68,7 @@ export function Astronomy({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Registered', {user:user})}>
+          onPress={() => navigation.navigate('Registered', {user:user, bday: bday})}>
           <Text style={[styles.goBack, {marginTop:30}]}> {'< Go back'}</Text>
         </TouchableOpacity>
       </View>

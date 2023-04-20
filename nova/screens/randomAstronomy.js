@@ -7,7 +7,7 @@ import { Card } from 'react-native-elements';
 
 
 export function RandomAstronomy({ route, navigation }) {
-  const{user} = route.params;
+  const{user, bday} = route.params;
   const [data, setData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
@@ -71,7 +71,7 @@ export function RandomAstronomy({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Registered', { user: user })}>
+          onPress={() => navigation.navigate('Registered', { user: user, bday:bday })}>
           <Text style={[styles.goBack, { marginTop: 30 }]}> {'< Go back'}</Text>
         </TouchableOpacity>
       </View>
